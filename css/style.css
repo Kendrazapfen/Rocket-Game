@@ -1,3 +1,12 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background: black;
+  overflow: hidden;
+}
+
 canvas {
   background-color: rgba(0, 0, 0, 0.8);
+  display: block;
+  margin: auto;
 }

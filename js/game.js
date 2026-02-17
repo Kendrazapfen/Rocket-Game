@@ -1,3 +1,5 @@
+const GAME_WIDTH = 800;
+const GAME_HEIGHT = 600;
 let KEY_SPACE = false;
 let KEY_UP = false;
 let KEY_DOWN = false;
@@ -47,6 +49,8 @@ let ufoTemplate = {
 function startGame() {
   canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
   loadImages();
   loadSounds();
   gameLoop();
@@ -284,7 +288,7 @@ function handleRocketHit(ufoIndex) {
   }
 }
 
-  function isColliding(a, b) {
+function isColliding(a, b) {
   return (
     a.x + a.hitboxPadding < b.x + b.width - b.hitboxPadding &&
     a.x + a.width - a.hitboxPadding > b.x + b.hitboxPadding &&
@@ -323,7 +327,7 @@ function draw() {
   drawExplosions();
   drawHUD();
   drawLives();
-  }
+}
 
 //functions for draw
 function drawScore() {
@@ -503,4 +507,18 @@ function resetGame() {
   rocket.y = 50;
   lastUfoSpawn = Date.now();
   gameState = 'PLAYING';
+}
+
+//responsive
+function resizeCanvas() {
+  const scale = Math.min(
+    window.innerWidth / GAME_WIDTH,
+    window.innerHeight / GAME_HEIGHT,
+  );
+
+  canvas.width = GAME_WIDTH;
+  canvas.height = GAME_HEIGHT;
+
+  canvas.style.width = GAME_WIDTH * scale + 'px';
+  canvas.style.height = GAME_HEIGHT * scale + 'px';
 }
