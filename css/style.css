@@ -3,10 +3,41 @@ html, body {
   padding: 0;
   background: black;
   overflow: hidden;
+  touch-action: none;
 }
 
 canvas {
   background-color: rgba(0, 0, 0, 0.8);
   display: block;
   margin: auto;
+}
+
+#mobileControls {
+  position: fixed;
+  bottom: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  pointer-events: auto;
+}
+
+#mobileControls button {
+  width: 70px;
+  height: 70px;
+  font-size: 24px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.25);
+  color: white;
+}
+#audioOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  z-index: 10;
 }

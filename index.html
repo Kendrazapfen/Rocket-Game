@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
     <link rel="stylesheet" href="css/style.css" />
 
     <title>Rocket-Game</title>
@@ -10,6 +13,17 @@
 
   <body onload="startGame()">
     <canvas id="canvas"> </canvas>
+
+    <div id="mobileControls">
+      <button id="btnUp">↑</button>
+      <button id="btnShoot">🔥</button>
+      <button id="btnDown">↓</button>
+    </div>
+
+    <div id="audioOverlay">
+      <p>Tippen zum Starten 🔊</p>
+    </div>
+    
     <script src="js/game.js"></script>
   </body>
 </html>

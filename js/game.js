@@ -1,8 +1,5 @@
 const GAME_WIDTH = 800;
 const GAME_HEIGHT = 600;
-let KEY_SPACE = false;
-let KEY_UP = false;
-let KEY_DOWN = false;
 let canvas;
 let ctx;
 let backgroundImage = new Image();
@@ -18,7 +15,6 @@ let soundShoot;
 let soundExplosion;
 let soundHit;
 let soundBackground;
-let backgroundStarted = false;
 let musicVolume = 0.3;
 let sfxVolume = 0.7;
 let showHUD = true;
@@ -44,6 +40,50 @@ let ufoTemplate = {
   img: null,
   hitboxPadding: 8,
 };
+const Input = {
+  up: false,
+  down: false,
+  shoot: false,
+
+  init() {
+    window.addEventListener('keydown', e => {
+      if (e.code === 'ArrowUp') this.up = true;
+      if (e.code === 'ArrowDown') this.down = true;
+      if (e.code === 'Space') this.shoot = true;
+      handleVolumeKeys(e.code);
+      handleHUDToggle(e.code);
+
+      if (e.code === 'KeyR' && gameState !== 'PLAYING') {
+        resetGame();
+      }
+    });
+
+    window.addEventListener('keyup', e => {
+      if (e.code === 'ArrowUp') this.up = false;
+      if (e.code === 'ArrowDown') this.down = false;
+      if (e.code === 'Space') {
+        this.shoot = false;
+        canShoot = true;
+      }
+    });
+
+    this.bindTouch('btnUp', 'up');
+    this.bindTouch('btnDown', 'down');
+    this.bindTouch('btnShoot', 'shoot');
+  },
+
+  bindTouch(id, key) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    el.addEventListener('pointerdown', () => this[key] = true);
+    el.addEventListener('pointerup', () => {
+      this[key] = false;
+      if (key === 'shoot') canShoot = true;
+    });
+    el.addEventListener('pointerleave', () => this[key] = false);
+  }
+};
 
 //setup
 function startGame() {
@@ -53,6 +93,8 @@ function startGame() {
   window.addEventListener('resize', resizeCanvas);
   loadImages();
   loadSounds();
+  enableAudioUnlock(); 
+  Input.init();
   gameLoop();
   canvas.focus();
 }
@@ -93,53 +135,19 @@ function applyVolumes() {
   soundHit.volume = sfxVolume;
 }
 
+function enableAudioUnlock() {
+  document.addEventListener(
+    'pointerdown',
+    () => {
+      soundBackground.play().catch(() => {});
+    },
+    { once: true }
+  );
+}
+
 //input
-document.addEventListener('keydown', handleKeyDown);
-document.addEventListener('keyup', handleKeyUp);
 
 //functions for input
-function handleKeyDown(e) {
-  startBackgroundSoundOnce();
-  handleVolumeKeys(e.code);
-  handleHUDToggle(e.code);
-  if (e.code === 'Space') {
-    KEY_SPACE = true;
-  }
-
-  if (e.code === 'ArrowUp') {
-    KEY_UP = true;
-  }
-
-  if (e.code === 'ArrowDown') {
-    KEY_DOWN = true;
-  }
-  if (e.code === 'KeyR' && gameState !== 'PLAYING') {
-    resetGame();
-  }
-}
-
-function handleKeyUp(e) {
-  if (e.code === 'Space') {
-    KEY_SPACE = false;
-    canShoot = true;
-  }
-
-  if (e.code === 'ArrowUp') {
-    KEY_UP = false;
-  }
-
-  if (e.code === 'ArrowDown') {
-    KEY_DOWN = false;
-  }
-}
-
-function startBackgroundSoundOnce() {
-  if (!backgroundStarted) {
-    soundBackground.play();
-    backgroundStarted = true;
-  }
-}
-
 function handleVolumeKeys(code) {
   if (code === 'KeyM') {
     musicVolume = Math.max(0, musicVolume - 0.1);
@@ -194,7 +202,7 @@ function handleUfoSpawning() {
 }
 
 function handleShooting() {
-  if (KEY_SPACE && canShoot) {
+  if (Input.shoot && canShoot) {
     soundShoot.currentTime = 0;
     soundShoot.play();
     bullets.push({
@@ -209,10 +217,10 @@ function handleShooting() {
 }
 
 function updateRocket() {
-  if (KEY_UP) {
+  if (Input.up) {
     rocket.y -= 4;
   }
-  if (KEY_DOWN) {
+  if (Input.down) {
     rocket.y += 4;
   }
   rocket.y = Math.max(0, Math.min(canvas.height - rocket.height, rocket.y));
