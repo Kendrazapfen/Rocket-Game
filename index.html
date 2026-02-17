@@ -11,19 +11,21 @@
     <title>Rocket-Game</title>
   </head>
 
-  <body onload="startGame()">
+  <body>
     <canvas id="canvas"> </canvas>
+    <div id="startScreen">
+      <button id="startBtn">Start</button>
+    </div>
+    <div id="audioOverlay"> 
+      <p>Tippen zum Starten 🔊</p> 
+    </div>
 
     <div id="mobileControls">
       <button id="btnUp">↑</button>
       <button id="btnShoot">🔥</button>
       <button id="btnDown">↓</button>
     </div>
-
-    <div id="audioOverlay">
-      <p>Tippen zum Starten 🔊</p>
-    </div>
-    
+  
     <script src="js/game.js"></script>
   </body>
 </html>

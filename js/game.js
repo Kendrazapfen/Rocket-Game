@@ -40,6 +40,31 @@ let ufoTemplate = {
   img: null,
   hitboxPadding: 8,
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+  const audioOverlay = document.getElementById('audioOverlay');
+  const startScreen = document.getElementById('startScreen');
+  const startBtn = document.getElementById('startBtn');
+
+  // Klick auf Overlay (PC + Handy)
+  if (audioOverlay) {
+    audioOverlay.addEventListener('pointerdown', () => {
+      audioOverlay.style.display = 'none';
+      if (startScreen) startScreen.style.display = 'none';
+      startGame();
+    }, { once: true });
+  }
+
+  // Falls du den Start-Button trotzdem nutzen willst:
+  if (startBtn) {
+    startBtn.addEventListener('click', () => {
+      if (audioOverlay) audioOverlay.style.display = 'none';
+      if (startScreen) startScreen.style.display = 'none';
+      startGame();
+    }, { once: true });
+  }
+});
+
 const Input = {
   up: false,
   down: false,
@@ -84,6 +109,7 @@ const Input = {
     el.addEventListener('pointerleave', () => this[key] = false);
   }
 };
+
 
 //setup
 function startGame() {
