@@ -49,3 +49,22 @@ canvas {
   font-size: 24px;
   z-index: 10;
 }
+.hud-toggle {
+  position: fixed;
+  right: 12px;
+  bottom: 120px;
+  padding: 10px 14px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  z-index: 1000;
+}
+
+
+@media (min-width: 1025px) {
+  .hud-toggle {
+    display: none;
+  }
+}

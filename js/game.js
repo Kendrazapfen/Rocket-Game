@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const audioOverlay = document.getElementById('audioOverlay');
   const startScreen = document.getElementById('startScreen');
   const startBtn = document.getElementById('startBtn');
+  const hudBtn = document.getElementById('hudToggleBtn');
 
-  // Klick auf Overlay (PC + Handy)
   if (audioOverlay) {
     audioOverlay.addEventListener('pointerdown', () => {
       audioOverlay.style.display = 'none';
@@ -55,13 +55,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { once: true });
   }
 
-  // Falls du den Start-Button trotzdem nutzen willst:
   if (startBtn) {
     startBtn.addEventListener('click', () => {
       if (audioOverlay) audioOverlay.style.display = 'none';
       if (startScreen) startScreen.style.display = 'none';
       startGame();
     }, { once: true });
+  }
+  
+  if (hudBtn) {
+    hudBtn.addEventListener('pointerdown', () => {
+      showHUD = !showHUD;
+    });
   }
 });
 
