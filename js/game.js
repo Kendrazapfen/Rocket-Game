@@ -457,7 +457,7 @@ function drawGameOverScreen() {
   ctx.fillStyle = 'white';
   ctx.font = '22px Roboto';
   ctx.fillText(
-    'Drücke R für Neustart',
+    'Tippe oder drücke R für Neustart',
     canvas.width / 2,
     canvas.height / 2 + 20,
   );
@@ -556,3 +556,8 @@ function resizeCanvas() {
   canvas.style.width = GAME_WIDTH * scale + 'px';
   canvas.style.height = GAME_HEIGHT * scale + 'px';
 }
+document.addEventListener('pointerdown', () => {
+  if (gameState !== 'PLAYING') {
+    resetGame();
+  }
+});
